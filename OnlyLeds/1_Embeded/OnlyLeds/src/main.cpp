@@ -1,9 +1,29 @@
+
+// * Importing Libraries
+
 #include <Arduino.h>
+#include <FastLED.h>
+
+#define NUM_LEDS  60
+#define LED_PIN   13
+
+CRGB leds[NUM_LEDS];
 
 void setup() {
-	// put your setup code here, to run once:
+  
+  FastLED.addLeds<WS2812B, LED_PIN, GRB>(leds, NUM_LEDS);
+  FastLED.setBrightness(50);
+
+  Serial.begin(9600);
+
+  FastLED.clear(true);
 }
 
-void loop() {
-	// put your main code here, to run repeatedly:
+void loop () {
+  
+    uint16_t beatA = beatsin16(30, 0, 255);
+    uint16_t beatB = beatsin16(20, 0, 255);
+    fill_rainbow(leds, NUM_LEDS, (beatA+beatB)/2, 8);
+    
+    FastLED.show();
 }
